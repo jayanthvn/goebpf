@@ -465,21 +465,26 @@ func (m *EbpfMap) Create() error {
 
 	// Perform few sanity checks
 	if len(m.Name) >= C.BPF_OBJ_NAME_LEN {
+		log.Infof("map name long")
 		return fmt.Errorf("Map name '%s' is too long", m.Name)
 	}
 	if m.KeySize < 1 {
+		log.Infof("invalid key size")
 		return fmt.Errorf("Invalid map '%s' key size(%d)", m.Name, m.KeySize)
 	}
 	if m.ValueSize < 1 {
+		log.Infof("invalid value size")
 		return fmt.Errorf("Invalid map '%s' value size(%d)", m.Name, m.ValueSize)
 	}
 
 	if err := m.setValueRealSize(); err != nil {
+		log.Infof("err set real value")
 		return err
 	}
 
 	// Don't re-create map if it has fd assigned (NewMapFromExisting use case)
 	if m.fd != 0 {
+		log.Infof("FD - %d", m.fd)
 		return nil
 	}
 
@@ -496,6 +501,7 @@ func (m *EbpfMap) Create() error {
 		if objFd != -1 {
 			// Successful, retrieved map fd from given location
 			m.fd = objFd
+			log.Infof("success FD - %d", m.fd)
 			return nil
 		}
 		// No map at given location present yet, create it!
