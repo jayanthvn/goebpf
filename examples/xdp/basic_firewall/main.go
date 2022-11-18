@@ -13,7 +13,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/dropbox/goebpf"
+	"github.com/jayanthvn/goebpf"
 )
 
 type ipAddressList []string

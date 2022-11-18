@@ -138,7 +138,10 @@ import (
 	"net"
 	"strings"
 	"unsafe"
+	"github.com/jayanthvn/goebpf/logger"
 )
+
+var log = logger.Get()
 
 // MapType is eBPF map type enum
 type MapType int
@@ -507,6 +510,9 @@ func (m *EbpfMap) Create() error {
 		unsafe.Pointer(&logBuf[0]),
 		C.size_t(unsafe.Sizeof(logBuf)),
 	))
+
+
+	log.Infof("Calling BPFsys for name %s mapType %d keysize %d valuesize %d max entries %d flags %d innermap %d newFD %d",name, m.Type, m.KeySize, m.ValueSize, m.MaxEntries, m.Flags, m.InnerMapFd, newFd)
 
 	if newFd == -1 {
 		return fmt.Errorf("ebpf_create_map() failed: %s",
