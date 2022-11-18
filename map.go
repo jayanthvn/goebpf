@@ -461,6 +461,7 @@ func (m *EbpfMap) Create() error {
 	if m.Type == MapTypeLPMTrie {
 		m.Flags |= bpfNoPrealloc
 	}
+	log.Infof("Create name %s mapType %d keysize %d valuesize %d max entries %d flags %d innermap %d ",m.Name, m.Type, m.KeySize, m.ValueSize, m.MaxEntries, m.Flags, m.InnerMapFd )
 
 	// Perform few sanity checks
 	if len(m.Name) >= C.BPF_OBJ_NAME_LEN {
